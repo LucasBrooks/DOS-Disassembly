@@ -1,6 +1,6 @@
 ESCCHR  EQU     1BH
 BRKADR  EQU     6CH
-ASNMAX  EQU     0C0H
+ASNMAX  EQU     0C8H
 
 CODE    SEGMENT BYTE PUBLIC 'CODE'
         ASSUME  CS:CODE,DS:CODE,ES:CODE,SS:CODE
@@ -803,7 +803,7 @@ KEYASN:
         SUB     ASNPTR,CX
         MOV     SI,DI
         ADD     SI,CX
-        MOV     CX,OFFSET BUF+ASNMAX+8
+        MOV     CX,OFFSET BUF+ASNMAX
         SUB     CX,SI
         CLD
         PUSH    ES                      ; SAVE USER'S ES
@@ -829,7 +829,7 @@ GETPTR:
         MOV     BX,ASNPTR
         INC     BX
         ADD     BX,PRMCNTW
-        CMP     BX,ASNMAX+8
+        CMP     BX,ASNMAX
         JB      GET1
         DEC     PRMCNT
         JMP     SHORT GETPTR
@@ -839,7 +839,7 @@ GET1:
         RET
 
 BUF     DB      4,0,72H,16,0
-        DB      ASNMAX+8-5 DUP (0)
+        DB      ASNMAX-5 DUP (0)
 
 CON$INIT:
         INT     11H
